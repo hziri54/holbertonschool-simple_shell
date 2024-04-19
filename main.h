@@ -20,4 +20,8 @@ int exit_shell(char *command);
 void printenv(char **environ);
 char *get_the_location(char *command);
 
+<<<<<<< HEAD
 #endif
+=======
+#endif
+>>>>>>> 0dd9a810f9779719469066be5a4649b4ab70c39a
