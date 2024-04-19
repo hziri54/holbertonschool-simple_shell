@@ -45,4 +45,3 @@ char *get_the_location(char *command)
 	free(path_copy); /* Free duplicated path */
 	return (strdup(command)); /* Return command if not found in any directory */
 }
-
