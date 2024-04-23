@@ -1,68 +1,79 @@
 #include "main.h"
 
 /**
- * printenv - prints the current environment
- * @environ: environment variable
+ * _printlineTyped - function for interactive input in a shell
+ *
+ * Displays a prompt and reads user data from stdin using fgets
+ * Executes the command and prints the line entered in the prompt
+ * Exits the shell if fgets returns -1 EOF or an error occurs
+ *
+ * Return: 0 on success, -1 on shell exit or error
  */
 
-void printenv(char **environ)
-{
-/* Let's iterate through the environment variables */
-int i;
-
-	for (i = 0; environ[i] != NULL; i++)
-/* Print each environment variable */
-		printf("%s\n", environ[i]);
-}
-
-/**
- * _printlineTyped - Basic function for interactive input in a shell.
- * Description: Displays a prompt, reads user input from stdin using getline,
- * and prints the entered line.
- * Exits the shell if getline returns -1 (EOF or an error).
- * Dynamically allocates memory for input and frees it at the end.
- * Return: 0 on success, -1 on shell exit or error.
- */
 int _printlineTyped(void)
 {
-	char *prompt = "$ ";
-	char *lineptr = NULL;
-	char **tokens;
-	size_t n = 0;
-	ssize_t nchars_read;
-	int status, i = 0;
-/* Loop indefinitely to continuously read input lines */
-	while (1)
-	{ /* Print the prompt if input is from a terminal */
-		if (isatty(fileno(stdin)))
-			printf("%s", prompt);
-		nchars_read = getline(&lineptr, &n, stdin); /* Read a line of input */
+	char *prompt = "$ "; /* Define the shell prompt */
+	char *lineptr = NULL; /* Pointer to store user input line */
+	char **tokens; /* Pointer to store command tokens */
+	int status, i; /* Variables for status and loop iteration */
 
-		if (nchars_read == -1) /* Handle EOF or error while reading input */
+	while (1) /* Infinite loop for shell operation */
+	{
+		if (isatty(fileno(stdin))) /* Check if stdin is associated with a terminal */
+			printf("%s", prompt); /* Print the shell prompt if it's a terminal */
+			/* Read user input line */
+		if (fgets(lineptr, sizeof(lineptr), stdin) == NULL)
 		{
-			free(lineptr);
-			exit(EXIT_FAILURE);
+			perror("Error reading input"); /* Print error message if reading fails */
+			exit(EXIT_FAILURE); /* Exit the program with failure status */
 		}
 		if (strcmp(lineptr, "\n") == 0) /* Skip process if input line empty */
-			continue;
-		if (nchars_read > 0 && lineptr[nchars_read - 1] == '\n')
-			lineptr[nchars_read - 1] = '\0';
+			continue; /* Skip to the next iteration if the input line is empty */
+		/* Remove newline character from input line */
+		if (lineptr[strlen(lineptr) - 1] == '\n')
+			lineptr[strlen(lineptr) - 1] = '\0';
+
 		tokens = process_command(lineptr); /* Tokenize the input line */
-		status = exit_shell(tokens[0]); /* Check if the command is exit */
-		if (status > 0)
+		status = exit_shell(tokens[0]); /* Check if the command is to */
+										/* exit the shell */
+		if (status > 0) /* If the exit command is entered */
 		{
-			free(lineptr); /* Free memory,exit shell if exit command execute */
-			for (i = 0; tokens[i]; i++)
+			for (i = 0; tokens[i]; i++) /* Free memory allocated for tokens */
 				free(tokens[i]);
 			free(tokens);
-			tokens = NULL;
-			exit(EXIT_SUCCESS);
+			exit(EXIT_SUCCESS); /* Exit the program with success status */
 		}
-		exec_command(tokens); /* Execute the command */
+		exec_command(tokens); /* Execute the entered command */
+
 		for (i = 0; tokens[i]; i++) /* Free memory allocated for tokens */
 			free(tokens[i]);
 		free(tokens);
-		tokens = NULL;
 	}
-	return (0); /* Return 0 to indicate successful completion */
+	return (0);
+}
+
+/**
+ * exit_shell - command for exiting the shell
+ * @command: arguments passed by users
+ * Return: 0
+*/
+
+int exit_shell(char *command)
+{
+	if (strcmp(command, "exit") == 0) /* Check if the command is exit */
+		return (1); /* Return 1 indicating the exit command was entered */
+	return (0); /* Return 0 indicating the exit command was not entered */
+}
+
+/**
+* printenv - prints the current environment
+* @environ: environment variable
+*/
+
+void printenv(char **environ)
+{
+	int i; /* Loop iteration variable */
+
+	for (i = 0; environ[i]; i++)   /* Loop through the environment variables */
+		printf("%s\n", environ[i]); /*Print each environment variable */
 }

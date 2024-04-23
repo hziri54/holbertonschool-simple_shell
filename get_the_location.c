@@ -3,15 +3,15 @@
 /**
  * get_the_location - Searches for the location of a command in
  * the directories specified by the PATH environment variable
- * @command: The command to search for
+ * @command: The command to search for ..
  *
  * Return: the full path of the command if found, or NULL if not
  * located in any specified directory
- *
- * Uses dynamic memory allocation and checks existence with the stat function
  */
+
 char *get_the_location(char *command)
-{	/* Declare pointers and delimiters */
+{
+	/* Declare pointers and delimiters */
 	char *path, *path_copy, *path_token, *file_path, *delimiters = ":";
 	int command_length, directory_length;
 	struct stat buffer;  /* Struct for file status */
@@ -24,7 +24,7 @@ char *get_the_location(char *command)
 
 	while (path_token != NULL) /* Iterate through each tokenized directory */
 	{
-		directory_length = strlen(path_token) /* Get length of the directory */
+		directory_length = strlen(path_token); /* Get length of the directory */
 		/* Allocate memory for file path */
 		file_path = malloc(command_length + directory_length + 2);
 		strcpy(file_path, path_token); /* Copy directory to file path */
