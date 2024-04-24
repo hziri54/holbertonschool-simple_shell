@@ -53,6 +53,54 @@ int _printlineTyped(void)
 }
 
 /**
+ * exec_command - execute command
+ *
+ * @tokens: arguments passed for users
+*/
+
+void exec_command(char **tokens)
+{
+	pid_t pid;
+	char *command = NULL;
+	/* Check if tokens are provided or not */
+	if (!tokens || !tokens[0])
+		return; /* No tokens provided, return from the function */
+	command = tokens[0]; /* Get the command to execute */
+	/* Check if the command is "env" without any arguments */
+	if (!strcmp(tokens[0], "env") && !tokens[1])
+	{
+		printenv(environ); /* Print the environment variables */
+		return; /* Return from the function after printing environment */
+	}
+	/* Create a new process */
+	pid = fork();
+	if (pid < 0) /* Check if fork failed */
+	{ /* If fork fails */
+		perror("Forks fail");
+	}
+	else if (pid == 0) /* Code block executed by the child process */
+	{
+/* Code executed by the child */ /* Search for the location of the command */
+		char *generate_command = get_the_location(command);
+		/* Execute the command */
+		if (execve(generate_command, tokens, environ) == -1)
+		{
+			perror("./hsh"); /* If execution of the command fails */
+			/* Free memory allocated for the generated command */
+			free(generate_command);
+/* Exit the child process with failed status */
+			exit(EXIT_FAILURE);
+		}
+/* Free memory allocated for the generated command after success execution */
+		free(generate_command);
+	}
+	else
+	{ /* Code executed by the parent */
+		waitpid(pid, NULL, 0); /* Wait for the child to finish */
+	}
+}
+
+/**
  * exit_shell - command for exiting the shell
  * @command: arguments passed by users
  * Return: 0
