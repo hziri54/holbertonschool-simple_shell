@@ -1,0 +1,56 @@
+.TH SIMPLE_SHELL 1 "April 20, 2024" "Version 1.0" "Simple Shell Manual"
+
+.SH NAME
+simple_shell \- A simple interactive shell
+
+.SH SYNOPSIS
+simple_shell
+
+.SH DESCRIPTION
+The simple_shell is a minimalist interactive shell developed in C language. It allows the user to execute system commands and provides some basic features.
+
+.LP
+A simple_shell command is typically used to run command-line commands. These commands may include executable programs, shell scripts, built-in shell commands, or operating system commands.
+
+.SH BUILT-IN COMMANDS
+The simple_shell supports the following built-in commands:
+
+.TP
+.BR cd " [directory]"
+Changes the current working directory. If no argument is provided, changes the working directory to the user's home directory.
+
+.TP
+.BR pwd
+Prints the current working directory.
+
+.TP
+.BR exit " [exit_code]"
+Exits the shell with the specified exit code (default 0).
+
+.SH USAGE
+To use the simple_shell, simply execute the simple_shell binary in your terminal.
+
+Example:
+.BR $ simple_shell
+
+Once launched, the simple_shell displays a command prompt and waits for the user to enter a command.
+
+.SH SYNTAX
+The general syntax for executing a command in the simple_shell is as follows:
+.BR $ command " [arguments]"
+
+Where "command" is the name of the command to be executed and "arguments" are the options or arguments to the command.
+
+.SH CONFIGURATION FILE
+The simple_shell does not currently support a configuration file.
+
+.SH ENVIRONMENT
+The simple_shell inherits the environment of the parent process when started.
+
+.SH EXIT CODES
+The simple_shell returns standard exit codes according to POSIX standard. An exit code of 0 indicates that the command was executed successfully, while a non-zero exit code indicates that an error occurred during command execution.
+
+.SH AUTHORS
+The simple_shell was developed by:
+Ziri Houamdi <zirihouamdi64@gmail.com>
+Kevin Guedon <kevinguedon2601@gmail.com>
