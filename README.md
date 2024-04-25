@@ -1,4 +1,6 @@
-## SIMPLE SHEL WITCH HOLBERTON SCHOOL BDX
+[Screenshot 2024-04-25 at 10-33-14 holberton - Recherche Google](https://github.com/hziri54/holbertonschool-simple_shell/assets/153849907/263ea236-2ff2-45b4-97be-0b3759f1f2f2)
+## SIMPLE SHEL WITCH HOLBERTON SCHOOL BDX!
+
 ## DESCRIPTION OF THE PROJECT
 Simple Shell is a basic interactive shell program written in C. It provides a command-line interface where users can execute various system commands and basic shell functionalities.
 
